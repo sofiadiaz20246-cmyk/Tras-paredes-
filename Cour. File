@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class Noclip : MonoBehaviour
+{
+    public float speed = 10f;
+    private bool noclip = false;
+    private Collider playerCollider;
+
+    void Start()
+    {
+        playerCollider = GetComponent<Collider>();
+    }
+
+    void Update()
+    {
+        // Activar / desactivar con tecla N
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            noclip = !noclip;
+            playerCollider.enabled = !noclip;
+        }
+
+        if (noclip)
+        {
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+            float y = 0;
+
+            if (Input.GetKey(KeyCode.Space)) y = 1;
+            if (Input.GetKey(KeyCode.LeftControl)) y = -1;
+
+            Vector3 move = new Vector3(x, y, z);
+            transform.Translate(move * speed * Time.deltaTime, Space.Self);
+        }
+    }
+}
